@@ -1,5 +1,5 @@
 var observable = require("data/observable");
-var BLE = require("nativescript-bluetooth");
+var bluetooth = require("nativescript-bluetooth");
 var dialogs = require("ui/dialogs");
 var DemoAppModel = (function (_super) {
   __extends(DemoAppModel, _super);
@@ -11,17 +11,17 @@ var DemoAppModel = (function (_super) {
     mostRecentlyConnectedDeviceUUID;
 
   DemoAppModel.prototype.doIsBluetoothEnabled = function () {
-    BLE.isBluetoothEnabled().then(function(enabled) {
+    bluetooth.isBluetoothEnabled().then(function(enabled) {
       dialogs.alert({
         title: "Enabled?",
         message: enabled ? "Yes" : "No",
         okButtonText: "OK, thanks"
       });
-    })
+    });
   };
 
   DemoAppModel.prototype.doStartScanning = function () {
-    BLE.startScanning(
+    bluetooth.startScanning(
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
         // seconds: 20, // passing in seconds makes the plugin stop scanning after <seconds> seconds
@@ -49,11 +49,11 @@ var DemoAppModel = (function (_super) {
         message: err,
         okButtonText: "OK, got it"
       });
-    })
+    });
   };
 
   DemoAppModel.prototype.doStopScanning = function () {
-    BLE.stopScanning().then(function() {
+    bluetooth.stopScanning().then(function() {
       dialogs.alert({
         title: "Scanning stopped",
         message: "You manually stopped scanning",
@@ -66,11 +66,11 @@ var DemoAppModel = (function (_super) {
         message: err,
         okButtonText: "OK, so be it"
       });
-    })
+    });
   };
 
   DemoAppModel.prototype.doConnect = function () {
-    BLE.connect(
+    bluetooth.connect(
       {
         UUID: mostRecentlyFoundDeviceUUID,
         // TODO add other callbacks, like onDeviceConnectionFailed? send those to the delegate object and keep them there..
@@ -100,11 +100,11 @@ var DemoAppModel = (function (_super) {
           okButtonText: "OK, shame"
         });
       }
-    )
+    );
   };
 
   DemoAppModel.prototype.doIsConnected = function () {
-    BLE.isConnected(
+    bluetooth.isConnected(
       {
         UUID: mostRecentlyFoundDeviceUUID
       }
@@ -123,11 +123,11 @@ var DemoAppModel = (function (_super) {
           okButtonText: "OK, cheers"
         });
       }
-    )
+    );
   };
 
   DemoAppModel.prototype.doRead = function () {
-    BLE.read(
+    bluetooth.read(
       {
         deviceUUID: mostRecentlyFoundDeviceUUID,
         serviceUUID: "B9401000-F5F8-466E-AFF9-25556B57FE6D", // TODO dummy
@@ -148,7 +148,7 @@ var DemoAppModel = (function (_super) {
           okButtonText: "OK"
         });
       }
-    )
+    );
   };
 
   // this is a bit silly to actually include in the demo as it really depends on the device what you should send to it
@@ -157,7 +157,7 @@ var DemoAppModel = (function (_super) {
     var data = new Uint8Array(1);
     data[0] = 1;
 
-    BLE.write(
+    bluetooth.write(
       {
         deviceUUID: mostRecentlyFoundDeviceUUID,
         serviceUUID: "B9401000-F5F8-466E-AFF9-25556B57FE6D", // TODO dummy
@@ -180,11 +180,11 @@ var DemoAppModel = (function (_super) {
           okButtonText: "Hmmkay"
         });
       }
-    )
+    );
   };
 
   DemoAppModel.prototype.doDisconnect = function () {
-    BLE.disconnect(
+    bluetooth.disconnect(
       {
         UUID: mostRecentlyFoundDeviceUUID
       }
@@ -204,7 +204,7 @@ var DemoAppModel = (function (_super) {
           okButtonText: "Darn!"
         });
       }
-    )
+    );
   };
 
   // TODO add start/stopNotification (or more to the point: start/stopListeningForCharacteristicChanges)
