@@ -1,4 +1,6 @@
 var observable = require("data/observable");
+var observableArray = require("data/observable-array");
+var frameModule = require("ui/frame");
 var bluetooth = require("nativescript-bluetooth");
 var dialogs = require("ui/dialogs");
 var DemoAppModel = (function (_super) {
@@ -20,28 +22,77 @@ var DemoAppModel = (function (_super) {
     });
   };
 
+  var observablePeripheralArray = new observableArray.ObservableArray();
+
+  DemoAppModel.prototype.peripherals = observablePeripheralArray;
+  
+  DemoAppModel.prototype.onPeripheralTap = function (args) {
+    var index = args.index;
+    console.log('!!&&&&***** Clicked item with index ' + index);
+    var peri = DemoAppModel.prototype.peripherals.getItem(index);
+    console.log("--- peri selected: " + peri.UUID);
+
+    var navigationEntry = {
+      moduleName: "services-page",
+      context: {
+        info: "something you want to pass to your page",
+        foo: 'bar',
+        peripheral: peri
+      },
+      animated: true
+    };
+    var topmost = frameModule.topmost();
+    topmost.navigate(navigationEntry);
+  };
+
   DemoAppModel.prototype.doStartScanning = function () {
+    var that = this;
+    that.set('isLoading', true);
+    // reset the array
+    observablePeripheralArray.splice(0, observablePeripheralArray.length); 
     bluetooth.startScanning(
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
-        // seconds: 20, // passing in seconds makes the plugin stop scanning after <seconds> seconds
-        onDeviceDiscovered: function (device) {
-          mostRecentlyFoundDeviceUUID = device.UUID;
-          dialogs.alert({
-            title: "Device found",
-            message: JSON.stringify(device),
-            okButtonText: "Sweet!"
+        seconds: 5, // passing in seconds makes the plugin stop scanning after <seconds> seconds
+        onDeviceDiscovered: function (peripheral) {
+          // mostRecentlyFoundDeviceUUID = peripheral.UUID;
+
+          var found = false;
+          observablePeripheralArray.forEach(function(value, index, array) {
+            if (value.UUID == peripheral.UUID) {
+              found = true;
+              // let's update the relevant values of the observable object so the UI updates
+              value.RSSI = peripheral.RSSI;
+              value.state = peripheral.state;
+            }
           });
-          // note that alerts can't overlap, so a second/third device may not be alerted - but they are logged:
-          console.log("Device found: " + JSON.stringify(device));
+
+          if (!found) {
+            // scan for services
+            console.log("--- connecting to device: @ " + peripheral.UUID);
+            // peripheral.services = new observableArray.ObservableArray();
+
+            var obsp = new observable.Observable(peripheral);
+            observablePeripheralArray.push(obsp);
+            /*
+            bluetooth.connect(
+              {
+                UUID: peripheral.UUID,
+                onDeviceConnected: function (device) {
+                  // mostRecentlyConnectedDeviceUUID = device.UUID;
+                  console.log("------- Device connected: " + JSON.stringify(device));
+                  device.services.forEach(function(value) {
+                    peripheral.services.push(value);                      
+                  });
+                }
+              }
+            );
+            */
+          }
         }
       }
     ).then(function() {
-      dialogs.alert({
-        title: "Scanning started",
-        message: "We'll scan until you press the 'stop scanning' button",
-        okButtonText: "OK, thanks"
-      });
+      that.set('isLoading', false);
     },
     function (err) {
       dialogs.alert({
@@ -52,13 +103,11 @@ var DemoAppModel = (function (_super) {
     });
   };
 
+
   DemoAppModel.prototype.doStopScanning = function () {
+    var that = this;
     bluetooth.stopScanning().then(function() {
-      dialogs.alert({
-        title: "Scanning stopped",
-        message: "You manually stopped scanning",
-        okButtonText: "Duh :)"
-      });
+      that.set('isLoading', false);
     },
     function (err) {
       dialogs.alert({
@@ -130,8 +179,8 @@ var DemoAppModel = (function (_super) {
     bluetooth.read(
       {
         deviceUUID: mostRecentlyFoundDeviceUUID,
-        serviceUUID: "B9401000-F5F8-466E-AFF9-25556B57FE6D", // TODO dummy
-        characteristicUUID: "B9402001-F5F8-466E-AFF9-25556B57FE6D" // TODO dummy
+        serviceUUID: "6217FF4B-FB31-1140-AD5A-A45545D7ECF3", // Polar
+        characteristicUUID: "6217FF4B-FB31-1140-AD5A-A45545D7ECF3" // Polar
       }
     ).then(
       function(result) {
@@ -208,7 +257,6 @@ var DemoAppModel = (function (_super) {
   };
 
   // TODO add start/stopNotification (or more to the point: start/stopListeningForCharacteristicChanges)
-
 
   return DemoAppModel;
 })(observable.Observable);

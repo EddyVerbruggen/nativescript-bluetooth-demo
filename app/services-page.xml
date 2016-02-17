@@ -1,0 +1,34 @@
+<Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
+  <StackLayout col="0" orientation="vertical">
+    <StackLayout col="0" orientation="vertical" cssClass="tab-content">
+      <Label text="{{ name }}" cssClass="details-label-title" />
+      <Label text="{{ UUID }}" cssClass="uuid-label" />
+      <Label text="{{ state }}" />
+      <Label text="Services:" />
+    </StackLayout>
+
+    <GridLayout rows="*">
+        <ListView items="{{ services }}" itemTap="onServiceTap" separatorColor="#90c3d4">
+            <ListView.itemTemplate>
+                <StackLayout col="0" cssClass="tab-content">
+                        <Label text="{{ UUID }}" xcssClass="details-services-uuid" />
+                        <!--ListView items="{{ characteristics }}" itemTap="onCharacteristicTap" separatorColor="#90c3d4">
+                            <ListView.itemTemplate>
+                                <StackLayout col="0" cssClass="padded-label">
+                                    <StackLayout cssClass="padded-row">
+                                        <Label text="{{ UUID }}" cssClass="details-uuid-label" />
+                                        <Label text="{{ value }}" cssClass="details-uuid-label" />
+                                        <Label text="{{ properties.read }}" cssClass="details-uuid-label" />
+                                        <Label text="{{ properties.write }}" cssClass="details-uuid-label" />
+                                        <Label text="{{ properties.notify }}" cssClass="details-uuid-label" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </ListView.itemTemplate>
+                        </ListView-->
+                </StackLayout>
+            </ListView.itemTemplate>
+        </ListView>
+      <ActivityIndicator busy="{{ isLoading }}" />
+    </GridLayout>
+  </StackLayout>
+</Page>

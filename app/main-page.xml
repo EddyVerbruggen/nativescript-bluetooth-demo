@@ -3,23 +3,48 @@
     <TabView.items>
       <TabViewItem title="Demo">
         <TabViewItem.view>
-          <GridLayout columns="*,*" rows="auto, auto, auto, auto, auto, auto" horizontalAlignment="center" cssClass="tab-content">
+          <StackLayout>
+              <GridLayout columns="*,*" rows="auto, auto" horizontalAlignment="center" cssClass="tab-content">
 
-            <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" cssClass="button-positive" />
-              
-            <Button row="1" col="0" text="start scanning" tap="{{ doStartScanning }}" cssClass="button-neutral" />
-            <Button row="1" col="1" text="stop scanning" tap="{{ doStopScanning }}" cssClass="button-neutral" />
+                <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" cssClass="button-positive" />
+                  
+                <Button row="1" col="0" text="scan 5 sec" tap="{{ doStartScanning }}" cssClass="button-neutral" />
+                <Button row="1" col="1" text="stop scan" tap="{{ doStopScanning }}" cssClass="button-neutral" />
 
-            <Label row="2" colSpan="2" text="After scanning you can connect - this limited demo will only interact with the most recently connected device" cssClass="hint" textWrap="true" />
-            
-            <Button row="3" col="0" text="connect" tap="{{ doConnect }}" />
-            <Button row="3" col="1" text="is connected?" tap="{{ doIsConnected }}" />
+                <!--Label row="2" colSpan="2" text="After scanning you can connect - this limited demo will only interact with the most recently connected device" cssClass="hint" textWrap="true" />
+                
+                <Button row="3" col="0" text="connect" tap="{{ doConnect }}" />
+                <Button row="3" col="1" text="is connected?" tap="{{ doIsConnected }}" />
 
-            <Button row="4" col="0" text="read" tap="{{ doRead }}" />
-            <Button row="4" col="1" text="write" tap="{{ doWrite }}" />
+                <Button row="4" col="0" text="read" tap="{{ doRead }}" />
+                <Button row="4" col="1" text="write" tap="{{ doWrite }}" />
 
-            <Button row="5" colSpan="2" text="disconnect" tap="{{ doDisconnect }}" cssClass="button-danger" />
-          </GridLayout>
+                <Button row="5" colSpan="2" text="disconnect" tap="{{ doDisconnect }}" cssClass="button-danger" /-->
+              </GridLayout>
+              <GridLayout rows="*">
+                  <ListView items="{{ peripherals }}" itemTap="onPeripheralTap" separatorColor="#90c3d4">
+                      <ListView.itemTemplate>
+                          <StackLayout col="0" orientation="horizontal" cssClass="padded-label">
+                              <StackLayout col="0" cssClass="padded-label-stack">
+                                <Image horizontalAlignment="right" width="30" src="~/res/signal-strength.png" />
+                                <Label horizontalAlignment="right" width="30" text="{{ RSSI }}" cssClass="rssi-label" />
+                              </StackLayout>
+                              <StackLayout col="1" cssClass="padded-label-stack">
+                                <Label text="{{ name }}" cssClass="title-label" textWrap="true" />
+                                <Label text="{{ UUID }}" cssClass="uuid-label" textWrap="true" />
+                                <Label text="{{ state }}" textWrap="true" />
+                                <!--StackLayout col="0" orientation="horizontal">
+                                  <Label text="services: " />
+                                  <Label text="{{ services.length }}" />
+                                </StackLayout-->
+                              </StackLayout>
+                              <Image col="2" horizontalAlignment="right" width="32" src="~/res/next.png" />
+                          </StackLayout>
+                      </ListView.itemTemplate>
+                  </ListView>
+                  <ActivityIndicator busy="{{ isLoading }}" />
+              </GridLayout>
+          </StackLayout>
         </TabViewItem.view>
       </TabViewItem>
       <TabViewItem title="About">

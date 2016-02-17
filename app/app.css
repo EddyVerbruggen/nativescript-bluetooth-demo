@@ -43,3 +43,24 @@ button {
 .button-neutral {
   background-color: #6494AA;
 }
+
+.padded-label {
+    padding: 0 12;
+}
+
+.padded-label-stack {
+    padding: 12;
+}
+
+.title-label {
+    padding: 0 0 12 0;
+    font-weight: bold;
+}
+
+.uuid-label {
+    font-size: 10;
+}
+
+.rssi-label {
+  font-size: 10;
+}
