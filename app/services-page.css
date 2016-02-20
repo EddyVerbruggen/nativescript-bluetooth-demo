@@ -4,6 +4,11 @@
   font-weight: bold;
 }
 
+.details-label-title-postfix {
+  color: #AAA;
+  font-size: 20;
+}
+
 .details-uuid-label {
   font-size: 14;
   padding: 10 10 10 10;
@@ -14,7 +19,6 @@
 }
 
 .details-services-uuid {
-  font-size: 14;
-  background-color: #CCC;
-  padding: 10;
+  font-size: 12;
+  padding: 10 0 10 0;
 }

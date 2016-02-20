@@ -1,23 +1,29 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
   <StackLayout col="0" orientation="vertical">
     <StackLayout col="0" orientation="vertical" cssClass="tab-content">
-      <Label text="Service" cssClass="details-label-title" />
-      <Label text="{{ UUID }}" cssClass="uuid-label" />
-      <Label text="Characteristics:" />
+      <Label text="Service characteristics" cssClass="details-label-title" />
+      <Label text="{{ UUID }}" />
+      <Label text="{{ feedback || 'Tap any row..' }}" cssClass="characteristic-feedback" />                
     </StackLayout>
 
     <GridLayout rows="*">
       <ListView items="{{ characteristics }}" itemTap="onCharacteristicTap" separatorColor="#90c3d4">
           <ListView.itemTemplate>
-            <GridLayout columns="*,*,*" rows="auto,auto,auto" horizontalAlignment="center" cssClass="tab-content">
-              <Label row="0" colSpan="3" text="{{ UUID }}" />
-              <Label row="1" colSpan="3" text="{{ value }}" visibility="{{ value != null ? 'visible' : 'collapsed' }}" />
-              <Label row="1" col="0" text="read" visibility="{{ properties.read ? 'visible' : 'collapsed' }}" />
-              <Label row="1" col="1" text="write" visibility="{{ properties.write ? 'visible' : 'collapsed' }}" />
-              <Label row="1" col="2" text="notify" visibility="{{ properties.notify ? 'visible' : 'collapsed' }}" />
-              <Label row="2" col="0" text="broadcast" visibility="{{ properties.broadcast ? 'visible' : 'collapsed' }}" />
-              <Label row="2" colSpan="2" text="writewithoutresponse" visibility="{{ properties.writeWithoutResponse ? 'visible' : 'collapsed' }}" />
-            </GridLayout>
+            <StackLayout col="0" orientation="vertical" cssClass="padded-label">
+                <Label text="{{ name }}" />
+                <Label text="{{ UUID }}" visibility="{{ name != UUID ? 'visible' : 'collapsed' }}" />
+                <!--<Label text="{{ value }}" />-->
+                <StackLayout orientation="horizontal" cssClass="characteristic-properties">
+                  <Label text="read" visibility="{{ properties.read ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
+                  <Label text="write" visibility="{{ properties.write ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
+                  <Label text="notify" visibility="{{ properties.notify ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
+                  <!--<Label text="broadcast" visibility="{{ properties.broadcast ? 'visible' : 'collapsed' }}" />-->
+                  <!--<Label text="writewithoutresponse" visibility="{{ properties.writeWithoutResponse ? 'visible' : 'collapsed' }}" />-->
+                </StackLayout>
+                <!--<StackLayout orientation="horizontal" cssClass="characteristic-properties" visibility="{{ feedback ? 'visible' : 'collapsed' }}">-->
+                  <!--<Label text="Result: " />-->
+                <!--</StackLayout>-->
+            </StackLayout>
           </ListView.itemTemplate>
       </ListView>
     </GridLayout>

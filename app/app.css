@@ -24,12 +24,16 @@ label {
 }
 
 button {
+  /*color: #ffffff;  beware! this sets the color of the actionsheet label on iOS 8+ (#ffffff makes the label invisible on the white background) */
   background-color: #E0A458;
-  color: #ffffff;
   padding: 8;
   margin: 8;
   font-size: 14;
   border-radius: 4;
+}
+
+.button {
+  color: #ffffff;
 }
 
 .button-positive {

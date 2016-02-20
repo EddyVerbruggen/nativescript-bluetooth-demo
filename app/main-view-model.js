@@ -53,7 +53,7 @@ var DemoAppModel = (function (_super) {
     bluetooth.startScanning(
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
-        seconds: 5, // passing in seconds makes the plugin stop scanning after <seconds> seconds
+        seconds: 3, // passing in seconds makes the plugin stop scanning after <seconds> seconds
         onDeviceDiscovered: function (peripheral) {
           // mostRecentlyFoundDeviceUUID = peripheral.UUID;
 

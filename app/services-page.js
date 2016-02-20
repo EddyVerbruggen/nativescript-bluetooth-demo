@@ -8,8 +8,13 @@ var peripheral;
 function pageLoaded(args) {
     var page = args.object;
 
-    // the Observable-wrapped object from the previous page
+    // might as well not load the rest of the page in this case (nav back)
+    if (page.navigationContext === undefined) {
+      return;
+    }
+    
     peripheral = page.navigationContext.peripheral;
+
     console.log("---- @ details page, peripheral.name: " + peripheral.name);
     
     peripheral.services = new observableArray.ObservableArray();
@@ -19,13 +24,14 @@ function pageLoaded(args) {
     bluetooth.connect(
       {
         UUID: peripheral.UUID,
+        // NOTE: we could just use the promise as this cb is only invoked once
         onDeviceConnected: function (device) {
           // mostRecentlyConnectedDeviceUUID = device.UUID;
           console.log("------- Device connected: " + JSON.stringify(device));
           
-          // peripheral.services = device.services;
           device.services.forEach(function(value) {
-            console.log("---- adding service" + peripheral.services.push(value));                      
+            console.log("---- ###### adding service: " + value.UUID);
+            peripheral.services.push(value);
           });
           peripheral.set('isLoading', false);
         }
