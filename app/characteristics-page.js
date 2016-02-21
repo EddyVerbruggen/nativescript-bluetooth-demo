@@ -83,6 +83,8 @@ function onCharacteristicTap(args) {
       }).then(function (result) {
         console.log("READ RESULT: " + JSON.stringify(result));
         service.set("feedback", result.decodedvalue || 'Empty value received');
+      }, function(error) {
+        service.set("feedback", error);        
       });
     } else if (result === "write") {
       bluetooth.write({
@@ -118,6 +120,10 @@ function onCharacteristicTap(args) {
         deviceUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
+      }).then(function (result) {
+        service.set("feedback", 'notification stopped');
+      }, function(error) {
+        service.set("feedback", error);
       });
     }
   });

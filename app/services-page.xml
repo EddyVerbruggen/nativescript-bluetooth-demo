@@ -6,8 +6,11 @@
         <Label text=" services" cssClass="details-label-title details-label-title-postfix" />
       </StackLayout>
       <Label text="{{ UUID }}" cssClass="details-services-uuid" />
-      <!--<Label text="{{ state }}" />-->
+      <Label text="{{ state }}" />
+      <Button text="disconnect" tap="onDisconnectTap" cssClass="button button-positive" />
     </StackLayout>
+
+    <ActivityIndicator busy="{{ isLoading }}" />
 
     <GridLayout rows="*">
       <ListView items="{{ services }}" itemTap="onServiceTap" separatorColor="#90c3d4">
@@ -18,7 +21,6 @@
           </StackLayout>
         </ListView.itemTemplate>
       </ListView>
-      <ActivityIndicator busy="{{ isLoading }}" />
     </GridLayout>
   </StackLayout>
 </Page>

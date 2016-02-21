@@ -21,10 +21,11 @@
 
                 <Button row="5" colSpan="2" text="disconnect" tap="{{ doDisconnect }}" cssClass="button-danger" /-->
               </GridLayout>
+              <ActivityIndicator busy="{{ isLoading }}" />
               <GridLayout rows="*">
                   <ListView items="{{ peripherals }}" itemTap="onPeripheralTap" separatorColor="#90c3d4">
                       <ListView.itemTemplate>
-                          <StackLayout col="0" orientation="horizontal" cssClass="padded-label">
+                          <StackLayout orientation="horizontal" cssClass="padded-label">
                               <StackLayout col="0" cssClass="padded-label-stack">
                                 <Image horizontalAlignment="right" width="30" src="~/res/signal-strength.png" />
                                 <Label horizontalAlignment="right" width="30" text="{{ RSSI }}" cssClass="rssi-label" />
@@ -33,16 +34,11 @@
                                 <Label text="{{ name }}" cssClass="title-label" textWrap="true" />
                                 <Label text="{{ UUID }}" cssClass="uuid-label" textWrap="true" />
                                 <Label text="{{ state }}" textWrap="true" />
-                                <!--StackLayout col="0" orientation="horizontal">
-                                  <Label text="services: " />
-                                  <Label text="{{ services.length }}" />
-                                </StackLayout-->
                               </StackLayout>
-                              <Image col="2" horizontalAlignment="right" width="32" src="~/res/next.png" />
+                              <!--<Image col="2" horizontalAlignment="right" width="32" src="~/res/next.png" />-->
                           </StackLayout>
                       </ListView.itemTemplate>
                   </ListView>
-                  <ActivityIndicator busy="{{ isLoading }}" />
               </GridLayout>
           </StackLayout>
         </TabViewItem.view>

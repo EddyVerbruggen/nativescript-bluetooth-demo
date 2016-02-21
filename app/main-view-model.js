@@ -57,19 +57,19 @@ var DemoAppModel = (function (_super) {
         onDeviceDiscovered: function (peripheral) {
           // mostRecentlyFoundDeviceUUID = peripheral.UUID;
 
-          var found = false;
-          observablePeripheralArray.forEach(function(value, index, array) {
-            if (value.UUID == peripheral.UUID) {
-              found = true;
+          // var found = false;
+          // observablePeripheralArray.forEach(function(value, index, array) {
+            // if (value.UUID == peripheral.UUID) {
+              // found = true;
               // let's update the relevant values of the observable object so the UI updates
-              value.RSSI = peripheral.RSSI;
-              value.state = peripheral.state;
-            }
-          });
+              // value.RSSI = peripheral.RSSI;
+              // value.state = peripheral.state;
+            // }
+          // });
 
-          if (!found) {
+          // if (!found) {
             // scan for services
-            console.log("--- connecting to device: @ " + peripheral.UUID);
+            // console.log("--- connecting to device: @ " + peripheral.UUID);
             // peripheral.services = new observableArray.ObservableArray();
 
             var obsp = new observable.Observable(peripheral);
@@ -88,7 +88,7 @@ var DemoAppModel = (function (_super) {
               }
             );
             */
-          }
+          // }
         }
       }
     ).then(function() {
@@ -118,6 +118,7 @@ var DemoAppModel = (function (_super) {
     });
   };
 
+/*
   DemoAppModel.prototype.doConnect = function () {
     bluetooth.connect(
       {
@@ -151,6 +152,7 @@ var DemoAppModel = (function (_super) {
       }
     );
   };
+*/
 
   DemoAppModel.prototype.doIsConnected = function () {
     bluetooth.isConnected(
@@ -231,32 +233,6 @@ var DemoAppModel = (function (_super) {
       }
     );
   };
-
-  DemoAppModel.prototype.doDisconnect = function () {
-    bluetooth.disconnect(
-      {
-        UUID: mostRecentlyFoundDeviceUUID
-      }
-    ).then(
-      function() {
-        console.log("Attempting to disconnect a device");
-        dialogs.alert({
-          title: "Attempting to connect",
-          message: "Lifecycle updates are sent through the 'onDeviceConnected' callback",
-          okButtonText: "Ehm, OK.."
-        });
-      },
-      function (err) {
-        dialogs.alert({
-          title: "Whoops!",
-          message: err,
-          okButtonText: "Darn!"
-        });
-      }
-    );
-  };
-
-  // TODO add start/stopNotification (or more to the point: start/stopListeningForCharacteristicChanges)
 
   return DemoAppModel;
 })(observable.Observable);

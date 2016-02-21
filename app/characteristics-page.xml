@@ -3,7 +3,7 @@
     <StackLayout col="0" orientation="vertical" cssClass="tab-content">
       <Label text="Service characteristics" cssClass="details-label-title" />
       <Label text="{{ UUID }}" />
-      <Label text="{{ feedback || 'Tap any row..' }}" cssClass="characteristic-feedback" />                
+      <Label text="{{ feedback || 'Tap any row..' }}" cssClass="characteristic-feedback" textWrap="true" />                
     </StackLayout>
 
     <GridLayout rows="*">

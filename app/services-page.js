@@ -2,41 +2,40 @@ var observableArray = require("data/observable-array");
 var observable = require("data/observable");
 var frameModule = require("ui/frame");
 var bluetooth = require("nativescript-bluetooth");
+var dialogs = require("ui/dialogs");
 
 var peripheral;
 
 function pageLoaded(args) {
-    var page = args.object;
+  var page = args.object;
 
-    // might as well not load the rest of the page in this case (nav back)
-    if (page.navigationContext === undefined) {
-      return;
-    }
-    
-    peripheral = page.navigationContext.peripheral;
+  // might as well not load the rest of the page in this case (nav back)
+  if (page.navigationContext === undefined) {
+    return;
+  }
+  
+  console.log("--- page.navigationContext: " + page.navigationContext);
+  
+  peripheral = page.navigationContext.peripheral;
+  peripheral.services = new observableArray.ObservableArray();
+  page.bindingContext = peripheral;
+  peripheral.set('isLoading', true);
 
-    console.log("---- @ details page, peripheral.name: " + peripheral.name);
-    
-    peripheral.services = new observableArray.ObservableArray();
-    page.bindingContext = peripheral;
-    peripheral.set('isLoading', true);
-
-    bluetooth.connect(
-      {
-        UUID: peripheral.UUID,
-        // NOTE: we could just use the promise as this cb is only invoked once
-        onDeviceConnected: function (device) {
-          // mostRecentlyConnectedDeviceUUID = device.UUID;
-          console.log("------- Device connected: " + JSON.stringify(device));
-          
-          device.services.forEach(function(value) {
-            console.log("---- ###### adding service: " + value.UUID);
-            peripheral.services.push(value);
-          });
-          peripheral.set('isLoading', false);
-        }
+  bluetooth.connect(
+    {
+      UUID: peripheral.UUID,
+      // NOTE: we could just use the promise as this cb is only invoked once
+      onDeviceConnected: function (device) {
+        console.log("------- Device connected: " + JSON.stringify(device));
+        
+        device.services.forEach(function(value) {
+          console.log("---- ###### adding service: " + value.UUID);
+          peripheral.services.push(value);
+        });
+        peripheral.set('isLoading', false);
       }
-    );
+    }
+  );
 }
 
 function onServiceTap(args) {
@@ -58,5 +57,32 @@ function onServiceTap(args) {
   topmost.navigate(navigationEntry);
 }
 
+function onDisconnectTap(args) {
+  console.log("Disconnecting peripheral " + peripheral.UUID);
+  bluetooth.disconnect(
+    {
+      UUID: peripheral.UUID
+    }
+  ).then(
+    function() {
+      console.log("Attempting to disconnect a device");
+      dialogs.alert({
+        title: "Disconnected",
+        message: "Go back to the peripheral overview",
+        okButtonText: "Ehm, OK.."
+      });
+      // TODO nav back to previous page
+    },
+    function (err) {
+      dialogs.alert({
+        title: "Whoops!",
+        message: err,
+        okButtonText: "Darn!"
+      });
+    }
+  );
+}
+
 exports.pageLoaded = pageLoaded;
 exports.onServiceTap = onServiceTap;
+exports.onDisconnectTap = onDisconnectTap;
