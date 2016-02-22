@@ -33,7 +33,7 @@
                               <StackLayout col="1" cssClass="padded-label-stack">
                                 <Label text="{{ name }}" cssClass="title-label" textWrap="true" />
                                 <Label text="{{ UUID }}" cssClass="uuid-label" textWrap="true" />
-                                <Label text="{{ state }}" textWrap="true" />
+                                <!--<Label text="{{ state }}" textWrap="true" />-->
                               </StackLayout>
                               <!--<Image col="2" horizontalAlignment="right" width="32" src="~/res/next.png" />-->
                           </StackLayout>

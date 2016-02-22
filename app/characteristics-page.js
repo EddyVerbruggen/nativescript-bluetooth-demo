@@ -16,65 +16,37 @@ function pageLoaded(args) {
     var peripheral = page.navigationContext.peripheral;
     var service = page.navigationContext.service;
     service.peripheral = peripheral;
-
     page.bindingContext = new observable.Observable(service);
-
-    // console.log("---- @ details page, service.UUID: " + service.UUID);
-    // console.log("---- @ details page, service.peripheral: " + peripheral.UUID);
-
-/*
-    var chars = service.characteristics;
-    service.characteristics = new observableArray.ObservableArray();
-    chars.forEach(function(value) {
-      var obsc = new observable.Observable(value);
-      service.characteristics.push(obsc);
-      // console.log("---- adding char " + service.characteristics.push(value));                      
-    });
- */
 }
 
 function onCharacteristicTap(args) {
   var index = args.index;
   var page = args.object;
   var service = page.bindingContext;
-
   var characteristic = service.characteristics[index];
-  // console.log("--- characteristic selected: " + characteristic.UUID);
 
-  // show an actionsheet which contains the possible options (read, write, notify at least)
-  
+  // show an actionsheet which contains the most relevant possible options
   var p = characteristic.properties;
   var actions = [];
   
   if (p.read) actions.push("read");
-  if (p.read2) actions.push("read2"); // TO HANDLER
   if (p.write) actions.push("write");
   if (p.writeWithoutResponse) actions.push("writeWithoutResponse");
   if (p.notify) actions.push("notify start");
   if (p.notify) actions.push("notify stop");
 
-/*  
-      broadcast: (props & CBCharacteristicPropertyBroadcast) == CBCharacteristicPropertyBroadcast,
-      read: (props & CBCharacteristicPropertyRead) == CBCharacteristicPropertyRead,
-      broadcast2: (props & CBCharacteristicPropertyBroadcast) == CBCharacteristicPropertyBroadcast,
-      read2: (props & CBCharacteristicPropertyRead) == CBCharacteristicPropertyRead,
-      write: (props & CBCharacteristicPropertyWrite) == CBCharacteristicPropertyWrite,
-      writeWithoutResponse: (props & CBCharacteristicPropertyWriteWithoutResponse) == CBCharacteristicPropertyWriteWithoutResponse,
-      notify: (props & CBCharacteristicPropertyNotify) == CBCharacteristicPropertyNotify,
-      indicate: (props & CBCharacteristicPropertyIndicate) == CBCharacteristicPropertyIndicate,
-      authenticatedSignedWrites: (props & CBCharacteristicPropertyAuthenticatedSignedWrites) == CBCharacteristicPropertyAuthenticatedSignedWrites,
-      extendedProperties: (props & CBCharacteristicPropertyExtendedProperties) == CBCharacteristicPropertyExtendedProperties,
-      notifyEncryptionRequired: (props & CBCharacteristicPropertyNotifyEncryptionRequired) == CBCharacteristicPropertyNotifyEncryptionRequired,
-      indicateEncryptionRequired: (props & CBCharacteristicPropertyIndicateEncryptionRequired) == CBCharacteristicPropertyIndicateEncryptionRequired
-*/
-
-  // TODO write, awaitResponse
   dialogs.action({
     message: "Pick a property",
     cancelButtonText: "Cancel",
     actions: actions
   }).then(function (result) {
+
     console.log("Dialog result: " + result);
+    
+    function getTimestamp() {
+      return new Date().toLocaleString();
+    }
+
     if (result === "read") {
       bluetooth.read({
         deviceUUID: service.peripheral.UUID,
@@ -82,9 +54,11 @@ function onCharacteristicTap(args) {
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
         console.log("READ RESULT: " + JSON.stringify(result));
-        service.set("feedback", result.decodedvalue || 'Empty value received');
+        service.set("feedback", result.valueDecoded || 'Empty value received');
+        service.set("feedbackTimestamp", getTimestamp());
       }, function(error) {
-        service.set("feedback", error);        
+        service.set("feedback", error);
+        service.set("feedbackTimestamp", getTimestamp());
       });
     } else if (result === "write") {
       bluetooth.write({
@@ -94,16 +68,18 @@ function onCharacteristicTap(args) {
         onWritten: function(result) {
           console.log("------@@@@@ got write result: " + JSON.stringify(result));
           service.set("feedback", 'value written');
+          service.set("feedbackTimestamp", getTimestamp());
         }
       });
     } else if (result === "writeWithoutResponse") {
-      bluetooth.write({
+      bluetooth.writeWithoutResponse({
         deviceUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
-        console.log("------@@@@@ got write result: " + JSON.stringify(result));
-        service.set("feedback", 'value written');
+        console.log("------@@@@@ got writeWithoutResponse result: " + JSON.stringify(result));
+        service.set("feedback", 'value write requested');
+        service.set("feedbackTimestamp", getTimestamp());
       });
     } else if (result === "notify start") {
       bluetooth.startNotifying({
@@ -111,9 +87,12 @@ function onCharacteristicTap(args) {
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID,
         onNotify: function(result) {
-          // console.log("------@@@@@ got notification result: " + JSON.stringify(result));
-          service.set("feedback", result.decodedvalue || 'No notification value received');
+          service.set("feedback", result.valueDecoded || 'No notification value received');
+          service.set("feedbackTimestamp", getTimestamp());
         }
+      }).then(function (result) {
+        service.set("feedback", 'subscribed for notifications');
+        service.set("feedbackTimestamp", getTimestamp());
       });
     } else if (result === "notify stop") {
       bluetooth.stopNotifying({
@@ -122,6 +101,7 @@ function onCharacteristicTap(args) {
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
         service.set("feedback", 'notification stopped');
+        service.set("feedbackTimestamp", getTimestamp());
       }, function(error) {
         service.set("feedback", error);
       });

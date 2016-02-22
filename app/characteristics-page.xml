@@ -4,6 +4,7 @@
       <Label text="Service characteristics" cssClass="details-label-title" />
       <Label text="{{ UUID }}" />
       <Label text="{{ feedback || 'Tap any row..' }}" cssClass="characteristic-feedback" textWrap="true" />                
+      <Label text="{{ feedbackTimestamp }}" cssClass="characteristic-feedback-timestamp" />
     </StackLayout>
 
     <GridLayout rows="*">
@@ -16,9 +17,8 @@
                 <StackLayout orientation="horizontal" cssClass="characteristic-properties">
                   <Label text="read" visibility="{{ properties.read ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
                   <Label text="write" visibility="{{ properties.write ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
+                  <Label text="writeWithoutResponse" visibility="{{ properties.writeWithoutResponse ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
                   <Label text="notify" visibility="{{ properties.notify ? 'visible' : 'collapsed' }}" cssClass="characteristic-property" />
-                  <!--<Label text="broadcast" visibility="{{ properties.broadcast ? 'visible' : 'collapsed' }}" />-->
-                  <!--<Label text="writewithoutresponse" visibility="{{ properties.writeWithoutResponse ? 'visible' : 'collapsed' }}" />-->
                 </StackLayout>
                 <!--<StackLayout orientation="horizontal" cssClass="characteristic-properties" visibility="{{ feedback ? 'visible' : 'collapsed' }}">-->
                   <!--<Label text="Result: " />-->

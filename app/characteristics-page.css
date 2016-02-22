@@ -33,5 +33,11 @@
 .characteristic-feedback {
   padding-top: 20;
   color: darkgreen;
-  font-size: 20;
+  font-size: 18;
+}
+
+.characteristic-feedback-timestamp {
+  padding-top: 10;
+  color: darkgreen;
+  font-size: 14;  
 }
