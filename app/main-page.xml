@@ -4,12 +4,16 @@
       <TabViewItem title="Demo">
         <TabViewItem.view>
           <StackLayout>
-              <GridLayout columns="*,*" rows="auto, auto" horizontalAlignment="center" cssClass="tab-content">
+              <GridLayout columns="*,*" rows="auto, auto, auto, auto" horizontalAlignment="center" cssClass="tab-content">
 
                 <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" cssClass="button button-positive" />
                   
-                <Button row="1" col="0" text="scan 3 sec" tap="{{ doStartScanning }}" cssClass="button button-neutral" />
-                <Button row="1" col="1" text="stop scan" tap="{{ doStopScanning }}" cssClass="button button-neutral" />
+                <Label row="1" colSpan="2" text="scan 4 seconds for:" cssClass="hint" textWrap="true" />
+
+                <Button row="2" col="0" text="any device" tap="{{ doStartScanning }}" cssClass="button button-neutral" />
+                <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrrateMontitor }}" cssClass="button button-neutral" />
+
+                <Button row="3" colSpan="2" text="stop scan" tap="{{ doStopScanning }}" cssClass="button button-danger" />
 
                 <!--Label row="2" colSpan="2" text="After scanning you can connect - this limited demo will only interact with the most recently connected device" cssClass="hint" textWrap="true" />
                 

@@ -9,8 +9,8 @@ var DemoAppModel = (function (_super) {
     _super.call(this);
   }
   
-  var mostRecentlyFoundDeviceUUID,
-    mostRecentlyConnectedDeviceUUID;
+  // TODO remove
+  var mostRecentlyFoundDeviceUUID;
 
   DemoAppModel.prototype.doIsBluetoothEnabled = function () {
     bluetooth.isBluetoothEnabled().then(function(enabled) {
@@ -45,6 +45,29 @@ var DemoAppModel = (function (_super) {
     topmost.navigate(navigationEntry);
   };
 
+  DemoAppModel.prototype.doScanForHeartrrateMontitor = function () {
+    var heartrateService = "180d";
+    var omegaService = "12345678-9012-3456-7890-1234567890ee";
+
+    var that = this;
+    that.set('isLoading', true);
+    // reset the array
+    observablePeripheralArray.splice(0, observablePeripheralArray.length); 
+    bluetooth.startScanning(
+      {
+        // beware: the device must advertise ALL these services
+        serviceUUIDs: [heartrateService],
+        seconds: 4,
+        onDeviceDiscovered: function (peripheral) {
+          var obsp = new observable.Observable(peripheral);
+          observablePeripheralArray.push(obsp);
+        }
+      }
+    ).then(function() {
+      that.set('isLoading', false);
+    });
+  };
+
   DemoAppModel.prototype.doStartScanning = function () {
     var that = this;
     that.set('isLoading', true);
@@ -53,7 +76,7 @@ var DemoAppModel = (function (_super) {
     bluetooth.startScanning(
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
-        seconds: 3, // passing in seconds makes the plugin stop scanning after <seconds> seconds
+        seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
         onDeviceDiscovered: function (peripheral) {
           // mostRecentlyFoundDeviceUUID = peripheral.UUID;
 
