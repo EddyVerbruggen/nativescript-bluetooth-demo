@@ -9,9 +9,6 @@ var DemoAppModel = (function (_super) {
     _super.call(this);
   }
   
-  // TODO remove
-  var mostRecentlyFoundDeviceUUID;
-
   DemoAppModel.prototype.doIsBluetoothEnabled = function () {
     bluetooth.isBluetoothEnabled().then(function(enabled) {
       dialogs.alert({
@@ -58,7 +55,7 @@ var DemoAppModel = (function (_super) {
         // beware: the device must advertise ALL these services
         serviceUUIDs: [heartrateService],
         seconds: 4,
-        onDeviceDiscovered: function (peripheral) {
+        onDiscover: function (peripheral) {
           var obsp = new observable.Observable(peripheral);
           observablePeripheralArray.push(obsp);
         }
@@ -77,41 +74,9 @@ var DemoAppModel = (function (_super) {
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
         seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
-        onDeviceDiscovered: function (peripheral) {
-          // mostRecentlyFoundDeviceUUID = peripheral.UUID;
-
-          // var found = false;
-          // observablePeripheralArray.forEach(function(value, index, array) {
-            // if (value.UUID == peripheral.UUID) {
-              // found = true;
-              // let's update the relevant values of the observable object so the UI updates
-              // value.RSSI = peripheral.RSSI;
-              // value.state = peripheral.state;
-            // }
-          // });
-
-          // if (!found) {
-            // scan for services
-            // console.log("--- connecting to device: @ " + peripheral.UUID);
-            // peripheral.services = new observableArray.ObservableArray();
-
-            var obsp = new observable.Observable(peripheral);
-            observablePeripheralArray.push(obsp);
-            /*
-            bluetooth.connect(
-              {
-                UUID: peripheral.UUID,
-                onDeviceConnected: function (device) {
-                  // mostRecentlyConnectedDeviceUUID = device.UUID;
-                  console.log("------- Device connected: " + JSON.stringify(device));
-                  device.services.forEach(function(value) {
-                    peripheral.services.push(value);                      
-                  });
-                }
-              }
-            );
-            */
-          // }
+        onDiscover: function (peripheral) {
+          var obsp = new observable.Observable(peripheral);
+          observablePeripheralArray.push(obsp);
         }
       }
     ).then(function() {
@@ -142,90 +107,6 @@ var DemoAppModel = (function (_super) {
   };
 
 /*
-  DemoAppModel.prototype.doConnect = function () {
-    bluetooth.connect(
-      {
-        UUID: mostRecentlyFoundDeviceUUID,
-        // TODO add other callbacks, like onDeviceConnectionFailed? send those to the delegate object and keep them there..
-        onDeviceConnected: function (device) {
-          mostRecentlyConnectedDeviceUUID = device.UUID;
-          dialogs.alert({
-            title: "Device connected",
-            message: JSON.stringify(device),
-            okButtonText: "Awesome!"
-          });
-          console.log("Device connected: " + JSON.stringify(device));
-        }
-      }
-    ).then(
-      function() {
-        console.log("Attempting to connect to device");
-        dialogs.alert({
-          title: "Attempting to connect",
-          message: "Lifecycle updates are sent through the 'onDeviceConnected' callback",
-          okButtonText: "Ehm, OK.."
-        });
-      },
-      function (err) {
-        dialogs.alert({
-          title: "Whoops!",
-          message: err,
-          okButtonText: "OK, shame"
-        });
-      }
-    );
-  };
-*/
-
-  DemoAppModel.prototype.doIsConnected = function () {
-    bluetooth.isConnected(
-      {
-        UUID: mostRecentlyFoundDeviceUUID
-      }
-    ).then(
-      function(connected) {
-        dialogs.alert({
-          title: "Connected?",
-          message: connected ? "Yes" : "No",
-          okButtonText: "OK, merci"
-        });
-      },
-      function (err) {
-        dialogs.alert({
-          title: "Whoops!",
-          message: err,
-          okButtonText: "OK, cheers"
-        });
-      }
-    );
-  };
-
-  DemoAppModel.prototype.doRead = function () {
-    bluetooth.read(
-      {
-        deviceUUID: mostRecentlyFoundDeviceUUID,
-        serviceUUID: "6217FF4B-FB31-1140-AD5A-A45545D7ECF3", // Polar
-        characteristicUUID: "6217FF4B-FB31-1140-AD5A-A45545D7ECF3" // Polar
-      }
-    ).then(
-      function(result) {
-        dialogs.alert({
-          title: "Read result",
-          message: JSON.stringify(result),
-          okButtonText: "OK, cool"
-        });
-      },
-      function (err) {
-        dialogs.alert({
-          title: "Whoops!",
-          message: err,
-          okButtonText: "OK"
-        });
-      }
-    );
-  };
-
-  // this is a bit silly to actually include in the demo as it really depends on the device what you should send to it
   DemoAppModel.prototype.doWrite = function () {
     // send 1 byte to switch a light on
     var data = new Uint8Array(1);
@@ -256,7 +137,7 @@ var DemoAppModel = (function (_super) {
       }
     );
   };
-
+*/
   return DemoAppModel;
 })(observable.Observable);
 exports.DemoAppModel = DemoAppModel;

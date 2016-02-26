@@ -25,14 +25,16 @@ function pageLoaded(args) {
     {
       UUID: peripheral.UUID,
       // NOTE: we could just use the promise as this cb is only invoked once
-      onDeviceConnected: function (device) {
+      onConnected: function (device) {
         console.log("------- Device connected: " + JSON.stringify(device));
-        
         device.services.forEach(function(value) {
           console.log("---- ###### adding service: " + value.UUID);
           peripheral.services.push(value);
         });
         peripheral.set('isLoading', false);
+      },
+      onDisconnected: function (device) {
+        alert("DISCONNECT!!!");
       }
     }
   );
