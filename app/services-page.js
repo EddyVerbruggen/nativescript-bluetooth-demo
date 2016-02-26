@@ -66,11 +66,6 @@ function onDisconnectTap(args) {
   ).then(
     function() {
       console.log("Attempting to disconnect a device");
-      dialogs.alert({
-        title: "Disconnected",
-        message: "We're going back to the peripheral overview now",
-        okButtonText: "OK, thanks"
-      });
       // going back to previous page
       frameModule.topmost().navigate({
         moduleName: "main-page",
@@ -78,6 +73,11 @@ function onDisconnectTap(args) {
         transition: {
           name: "slideRight"
         }
+      });
+      dialogs.alert({
+        title: "Disconnected",
+        message: "Scan again and connect to something else",
+        okButtonText: "OK, thanks"
       });
     },
     function (err) {
