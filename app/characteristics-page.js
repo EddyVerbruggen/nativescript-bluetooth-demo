@@ -4,11 +4,6 @@ var frameModule = require("ui/frame");
 var bluetooth = require("nativescript-bluetooth");
 var dialogs = require("ui/dialogs");
 
-// var peripheral;
-// var service;
-
-// var wrapper;
-
 function pageLoaded(args) {
     var page = args.object;
 
