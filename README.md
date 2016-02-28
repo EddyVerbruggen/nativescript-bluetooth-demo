@@ -27,11 +27,13 @@ $ tns install
 From there you can use the `run` command to run the demo app on iOS:
 
 ```
-$ tns run ios --emulator
+$ tns run ios
 ```
 
 .. or on Android
 
 ```
-$ tns run android --emulator
+$ tns run android
 ```
+
+Don't use an emulator as you can only test Bluetooth connectivity with a real device.

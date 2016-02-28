@@ -61,25 +61,49 @@ function onCharacteristicTap(args) {
         service.set("feedbackTimestamp", getTimestamp());
       });
     } else if (result === "write") {
-      bluetooth.write({
-        deviceUUID: service.peripheral.UUID,
-        serviceUUID: service.UUID,
-        characteristicUUID: characteristic.UUID,
-        onWritten: function(result) {
-          console.log("------@@@@@ got write result: " + JSON.stringify(result));
-          service.set("feedback", 'value written');
-          service.set("feedbackTimestamp", getTimestamp());
+      dialogs.prompt({
+        title: "Write what exactly?",
+        message: "The plugin will try to write a binary representation of this value to the device.",
+        cancelButtonText: "Cancel",
+        okButtonText: "Write it!"
+      }).then(function(response) {
+        console.log("-- prompt result: " + JSON.stringify(result));
+        if (response.result) {
+          bluetooth.write({
+            deviceUUID: service.peripheral.UUID,
+            serviceUUID: service.UUID,
+            characteristicUUID: characteristic.UUID,
+            value: response.text,
+            // TODO note that this will not yet be called
+            onWritten: function(result) {
+              console.log("------@@@@@ got write result: " + JSON.stringify(result));
+              service.set("feedback", 'value written');
+              service.set("feedbackTimestamp", getTimestamp());
+            }
+          });
         }
       });
     } else if (result === "writeWithoutResponse") {
-      bluetooth.writeWithoutResponse({
-        deviceUUID: service.peripheral.UUID,
-        serviceUUID: service.UUID,
-        characteristicUUID: characteristic.UUID
-      }).then(function (result) {
-        console.log("------@@@@@ got writeWithoutResponse result: " + JSON.stringify(result));
-        service.set("feedback", 'value write requested');
-        service.set("feedbackTimestamp", getTimestamp());
+      dialogs.prompt({
+        title: "Write what exactly?",
+        message: "The plugin will try to write a binary representation of this value to the device.",
+        cancelButtonText: "Cancel",
+        okButtonText: "Write it!"
+      }).then(function(response) {
+        console.log("-- prompt result: " + JSON.stringify(result));
+        if (response.result) {
+          bluetooth.writeWithoutResponse({
+            deviceUUID: service.peripheral.UUID,
+            serviceUUID: service.UUID,
+            characteristicUUID: characteristic.UUID,
+            value: response.text
+          }).then(function (result) {
+            // TODO note that this will not yet be called after writing the value
+            console.log("------@@@@@ got writeWithoutResponse result: " + JSON.stringify(result));
+            service.set("feedback", 'value write requested');
+            service.set("feedbackTimestamp", getTimestamp());
+          });
+        }
       });
     } else if (result === "notify start") {
       bluetooth.startNotifying({
