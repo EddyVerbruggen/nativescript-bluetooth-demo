@@ -34,7 +34,11 @@ function pageLoaded(args) {
         peripheral.set('isLoading', false);
       },
       onDisconnected: function (device) {
-        alert("DISCONNECT!!!");
+        dialogs.alert({
+          title: "Disconnected",
+          message: "Disconnected from device: " + JSON.stringify(device),
+          okButtonText: "OK, thanks"
+        });
       }
     }
   );
@@ -67,7 +71,6 @@ function onDisconnectTap(args) {
     }
   ).then(
     function() {
-      console.log("Attempting to disconnect a device");
       // going back to previous page
       frameModule.topmost().navigate({
         moduleName: "main-page",
@@ -75,11 +78,6 @@ function onDisconnectTap(args) {
         transition: {
           name: "slideRight"
         }
-      });
-      dialogs.alert({
-        title: "Disconnected",
-        message: "Scan again and connect to something else",
-        okButtonText: "OK, thanks"
       });
     },
     function (err) {

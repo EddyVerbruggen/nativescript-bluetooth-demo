@@ -55,7 +55,7 @@ var DemoAppModel = (function (_super) {
         // beware: the device must advertise ALL these services
         serviceUUIDs: [heartrateService],
         seconds: 4,
-        onDiscover: function (peripheral) {
+        onDiscovered: function (peripheral) {
           var obsp = new observable.Observable(peripheral);
           observablePeripheralArray.push(obsp);
         }
@@ -74,7 +74,7 @@ var DemoAppModel = (function (_super) {
       {
         serviceUUIDs: [], // pass an empty array to scan for all services
         seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
-        onDiscover: function (peripheral) {
+        onDiscovered: function (peripheral) {
           var obsp = new observable.Observable(peripheral);
           observablePeripheralArray.push(obsp);
         }
