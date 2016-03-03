@@ -2,4 +2,5 @@
 platforms
 node_modules
 lib
+tmp
 tsc-i386

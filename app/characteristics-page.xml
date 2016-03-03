@@ -4,6 +4,7 @@
       <Label text="Service characteristics" cssClass="details-label-title" />
       <Label text="{{ UUID }}" />
       <Label text="{{ feedback || 'Tap any row..' }}" cssClass="characteristic-feedback" textWrap="true" />                
+      <Label text="{{ feedbackRaw }}" cssClass="characteristic-feedback-raw" textWrap="true" />                
       <Label text="{{ feedbackTimestamp }}" cssClass="characteristic-feedback-timestamp" />
     </StackLayout>
 

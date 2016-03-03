@@ -26,6 +26,7 @@ function onCharacteristicTap(args) {
   
   if (p.read) actions.push("read");
   if (p.write) actions.push("write");
+  if (p.write) actions.push("write 0x01"); // convenience method, will write hex 1, translated to a binary 1
   if (p.writeWithoutResponse) actions.push("writeWithoutResponse");
   if (p.notify) actions.push("notify start");
   if (p.notify) actions.push("notify stop");
@@ -35,9 +36,6 @@ function onCharacteristicTap(args) {
     cancelButtonText: "Cancel",
     actions: actions
   }).then(function (result) {
-
-    console.log("Dialog result: " + result);
-    
     function getTimestamp() {
       return new Date().toLocaleString();
     }
@@ -48,8 +46,8 @@ function onCharacteristicTap(args) {
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
-        console.log("READ RESULT: " + JSON.stringify(result));
-        service.set("feedback", result.valueDecoded || 'Empty value received');
+        service.set("feedback", result.valueDecoded);
+        service.set("feedbackRaw", result.value);
         service.set("feedbackTimestamp", getTimestamp());
       }, function(error) {
         service.set("feedback", error);
@@ -58,34 +56,47 @@ function onCharacteristicTap(args) {
     } else if (result === "write") {
       dialogs.prompt({
         title: "Write what exactly?",
-        message: "The plugin will try to write a binary representation of this value to the device.",
+        message: "Please enter byte values; use 0x in front for hex and send multiple bytes by adding commas. For example 0x01 or 0x007F,0x006E",
         cancelButtonText: "Cancel",
         okButtonText: "Write it!"
       }).then(function(response) {
-        console.log("-- prompt result: " + JSON.stringify(result));
         if (response.result) {
           bluetooth.write({
             deviceUUID: service.peripheral.UUID,
             serviceUUID: service.UUID,
             characteristicUUID: characteristic.UUID,
             value: response.text,
-            // TODO note that this will not yet be called
-            onWritten: function(result) {
-              console.log("------@@@@@ got write result: " + JSON.stringify(result));
-              service.set("feedback", 'value written');
-              service.set("feedbackTimestamp", getTimestamp());
-            }
+          }).then(function (result) {
+            service.set("feedback", 'value written');
+            service.set("feedbackTimestamp", getTimestamp());
+          },
+          function (errorMsg) {
+            service.set("feedback", errorMsg);
+            service.set("feedbackTimestamp", getTimestamp());
           });
         }
+      });
+    } else if (result === "write 0x01") {
+      bluetooth.write({
+        deviceUUID: service.peripheral.UUID,
+        serviceUUID: service.UUID,
+        characteristicUUID: characteristic.UUID,
+        value: '0x01'
+      }).then(function (result) {
+        service.set("feedback", 'value written');
+        service.set("feedbackTimestamp", getTimestamp());
+      },
+      function (errorMsg) {
+        service.set("feedback", errorMsg);
+        service.set("feedbackTimestamp", getTimestamp());
       });
     } else if (result === "writeWithoutResponse") {
       dialogs.prompt({
         title: "Write what exactly?",
-        message: "The plugin will try to write a binary representation of this value to the device.",
+        message: "Please enter byte values; use 0x in front for hex and send multiple bytes by adding commas. For example 0x01 or 0x007F,0x006E",
         cancelButtonText: "Cancel",
         okButtonText: "Write it!"
       }).then(function(response) {
-        console.log("-- prompt result: " + JSON.stringify(result));
         if (response.result) {
           bluetooth.writeWithoutResponse({
             deviceUUID: service.peripheral.UUID,
@@ -93,8 +104,6 @@ function onCharacteristicTap(args) {
             characteristicUUID: characteristic.UUID,
             value: response.text
           }).then(function (result) {
-            // TODO note that this will not yet be called after writing the value
-            console.log("------@@@@@ got writeWithoutResponse result: " + JSON.stringify(result));
             service.set("feedback", 'value write requested');
             service.set("feedbackTimestamp", getTimestamp());
           });
@@ -106,7 +115,8 @@ function onCharacteristicTap(args) {
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID,
         onNotify: function(result) {
-          service.set("feedback", result.valueDecoded || 'No notification value received');
+          service.set("feedback", result.valueDecoded);
+          service.set("feedbackRaw", result.value);
           service.set("feedbackTimestamp", getTimestamp());
         }
       }).then(function (result) {
