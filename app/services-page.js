@@ -81,10 +81,14 @@ function onDisconnectTap(args) {
       });
     },
     function (err) {
-      dialogs.alert({
-        title: "Whoops!",
-        message: err,
-        okButtonText: "Darn!"
+      console.log(err);
+      // still going back to previous page
+      frameModule.topmost().navigate({
+        moduleName: "main-page",
+        animated: true,
+        transition: {
+          name: "slideRight"
+        }
       });
     }
   );
