@@ -9,7 +9,7 @@
 		}
 	},
 	"dependencies": {
-		"nativescript-bluetooth": "https://github.com/EddyVerbruggen/nativescript-bluetooth.git",
+		"nativescript-bluetooth": "^1.0.0",
 		"tns-core-modules": "^1.6.0"
 	},
 	"devDependencies": {
