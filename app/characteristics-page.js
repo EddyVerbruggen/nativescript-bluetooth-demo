@@ -65,7 +65,7 @@ function onCharacteristicTap(args) {
             peripheralUUID: service.peripheral.UUID,
             serviceUUID: service.UUID,
             characteristicUUID: characteristic.UUID,
-            value: response.text,
+            value: response.text
           }).then(function (result) {
             service.set("feedback", 'value written');
             service.set("feedbackTimestamp", getTimestamp());
