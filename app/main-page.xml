@@ -1,6 +1,17 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
   <TabView>
     <TabView.items>
+      <TabViewItem title="About">
+        <TabViewItem.view>
+          <ScrollView>
+            <StackLayout cssClass="tab-content">
+              <Image margin="10" src="~/res/telerik-logo.png" />
+              <Label text="Bluetooth plugin demo" cssClass="title"/>
+              <Label text="The Bluetooth plugin allows your app to scan for Bluetooth LE devices. Once found you can connect to a peripheral and read values. You can also write values and get notified when a value changes." textWrap="true"/>
+            </StackLayout>
+          </ScrollView>
+        </TabViewItem.view>
+      </TabViewItem>
       <TabViewItem title="Demo">
         <TabViewItem.view>
           <StackLayout>
@@ -45,17 +56,6 @@
                   </ListView>
               </GridLayout>
           </StackLayout>
-        </TabViewItem.view>
-      </TabViewItem>
-      <TabViewItem title="About">
-        <TabViewItem.view>
-          <ScrollView>
-            <StackLayout cssClass="tab-content">
-              <Image margin="10" src="~/res/telerik-logo.png" />
-              <Label text="Bluetooth plugin demo" cssClass="title"/>
-              <Label text="The Bluetooth plugin.. TODO" textWrap="true"/>
-            </StackLayout>
-          </ScrollView>
         </TabViewItem.view>
       </TabViewItem>
     </TabView.items>

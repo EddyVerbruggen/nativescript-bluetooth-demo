@@ -4,7 +4,7 @@ var frameModule = require("ui/frame");
 var bluetooth = require("nativescript-bluetooth");
 var dialogs = require("ui/dialogs");
 
-var peripheral;
+var _peripheral;
 
 function pageLoaded(args) {
   var page = args.object;
@@ -16,22 +16,22 @@ function pageLoaded(args) {
   
   console.log("--- page.navigationContext: " + page.navigationContext);
   
-  peripheral = page.navigationContext.peripheral;
-  peripheral.services = new observableArray.ObservableArray();
-  page.bindingContext = peripheral;
-  peripheral.set('isLoading', true);
+  _peripheral = page.navigationContext.peripheral;
+  _peripheral.services = new observableArray.ObservableArray();
+  page.bindingContext = _peripheral;
+  _peripheral.set('isLoading', true);
 
   bluetooth.connect(
     {
-      UUID: peripheral.UUID,
+      UUID: _peripheral.UUID,
       // NOTE: we could just use the promise as this cb is only invoked once
       onConnected: function (peripheral) {
         console.log("------- Peripheral connected: " + JSON.stringify(peripheral));
         peripheral.services.forEach(function(value) {
           console.log("---- ###### adding service: " + value.UUID);
-          peripheral.services.push(value);
+          _peripheral.services.push(value);
         });
-        peripheral.set('isLoading', false);
+        _peripheral.set('isLoading', false);
       },
       onDisconnected: function (peripheral) {
         dialogs.alert({
@@ -48,13 +48,13 @@ function onServiceTap(args) {
   var index = args.index;
   console.log('!!&&&&***** Clicked service with index ' + args.index);
 
-  var service = peripheral.services.getItem(index);
+  var service = _peripheral.services.getItem(index);
   console.log("--- service selected: " + service.UUID);
 
   var navigationEntry = {
     moduleName: "characteristics-page",
     context: {
-      peripheral: peripheral,
+      peripheral: _peripheral,
       service: service
     },
     animated: true
@@ -64,10 +64,10 @@ function onServiceTap(args) {
 }
 
 function onDisconnectTap(args) {
-  console.log("Disconnecting peripheral " + peripheral.UUID);
+  console.log("Disconnecting peripheral " + _peripheral.UUID);
   bluetooth.disconnect(
     {
-      UUID: peripheral.UUID
+      UUID: _peripheral.UUID
     }
   ).then(
     function() {
