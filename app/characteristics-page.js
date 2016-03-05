@@ -42,7 +42,7 @@ function onCharacteristicTap(args) {
 
     if (result === "read") {
       bluetooth.read({
-        deviceUUID: service.peripheral.UUID,
+        peripheralUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
@@ -62,7 +62,7 @@ function onCharacteristicTap(args) {
       }).then(function(response) {
         if (response.result) {
           bluetooth.write({
-            deviceUUID: service.peripheral.UUID,
+            peripheralUUID: service.peripheral.UUID,
             serviceUUID: service.UUID,
             characteristicUUID: characteristic.UUID,
             value: response.text,
@@ -78,7 +78,7 @@ function onCharacteristicTap(args) {
       });
     } else if (result === "write 0x01") {
       bluetooth.write({
-        deviceUUID: service.peripheral.UUID,
+        peripheralUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID,
         value: '0x01'
@@ -99,7 +99,7 @@ function onCharacteristicTap(args) {
       }).then(function(response) {
         if (response.result) {
           bluetooth.writeWithoutResponse({
-            deviceUUID: service.peripheral.UUID,
+            peripheralUUID: service.peripheral.UUID,
             serviceUUID: service.UUID,
             characteristicUUID: characteristic.UUID,
             value: response.text
@@ -111,7 +111,7 @@ function onCharacteristicTap(args) {
       });
     } else if (result === "notify start") {
       bluetooth.startNotifying({
-        deviceUUID: service.peripheral.UUID,
+        peripheralUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID,
         onNotify: function(result) {
@@ -125,7 +125,7 @@ function onCharacteristicTap(args) {
       });
     } else if (result === "notify stop") {
       bluetooth.stopNotifying({
-        deviceUUID: service.peripheral.UUID,
+        peripheralUUID: service.peripheral.UUID,
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
       }).then(function (result) {

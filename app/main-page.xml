@@ -10,7 +10,7 @@
                   
                 <Label row="1" colSpan="2" text="scan 4 seconds for:" cssClass="hint" textWrap="true" />
 
-                <Button row="2" col="0" text="any device" tap="{{ doStartScanning }}" cssClass="button button-neutral" />
+                <Button row="2" col="0" text="any peripheral" tap="{{ doStartScanning }}" cssClass="button button-neutral" />
                 <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrrateMontitor }}" cssClass="button button-neutral" />
 
                 <Button row="3" colSpan="2" text="stop scan" tap="{{ doStopScanning }}" cssClass="button button-danger" />

@@ -58,7 +58,7 @@ var DemoAppModel = (function (_super) {
           observablePeripheralArray.splice(0, observablePeripheralArray.length); 
           bluetooth.startScanning(
             {
-              // beware: the device must advertise ALL these services
+              // beware: the peripheral must advertise ALL these services
               serviceUUIDs: [heartrateService],
               seconds: 4,
               onDiscovered: function (peripheral) {
@@ -85,7 +85,7 @@ var DemoAppModel = (function (_super) {
   DemoAppModel.prototype.doStartScanning = function () {
     var that = this;
 
-    // On Android 6 we need this permission to be able to scan for devices in the background.
+    // On Android 6 we need this permission to be able to scan for peripherals in the background.
      bluetooth.hasCoarseLocationPermission().then(
       function(granted) {
         if (!granted) {
@@ -141,7 +141,7 @@ var DemoAppModel = (function (_super) {
 
     bluetooth.write(
       {
-        deviceUUID: mostRecentlyFoundDeviceUUID,
+        peripheralUUID: mostRecentlyFoundperipheralUUID,
         serviceUUID: "B9401000-F5F8-466E-AFF9-25556B57FE6D", // TODO dummy
         characteristicUUID: "B9402001-F5F8-466E-AFF9-25556B57FE6D", // TODO dummy
         value: data.buffer,

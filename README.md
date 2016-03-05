@@ -1,12 +1,6 @@
 # nativescript-bluetooth demo app
 
-
-## Work
-## In
-## Progress!
-
-
-Demo app for the {N} [bluetooth plugin](https://www.npmjs.com/package/nativescript-bluetooth)
+Demo app for the [NativeScript Bluetooth plugin](https://github.com/EddyVerbruggen/nativescript-bluetooth)
 
 ## Installation
 
