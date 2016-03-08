@@ -46,8 +46,12 @@ function onCharacteristicTap(args) {
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID
       }).then(function (result) {
-        service.set("feedback", result.valueDecoded);
-        service.set("feedbackRaw", result.value);
+        // result.value is an ArrayBuffer. Every service has a different encoding.
+        // fi. a heartrate monitor value can be retrieved by:
+        //   var data = new Uint8Array(result.value);
+        //   var heartRate = data[1];
+        service.set("feedback", result.value);
+        service.set("feedbackRaw", result.valueRaw);
         service.set("feedbackTimestamp", getTimestamp());
       }, function(error) {
         service.set("feedback", error);
@@ -115,8 +119,12 @@ function onCharacteristicTap(args) {
         serviceUUID: service.UUID,
         characteristicUUID: characteristic.UUID,
         onNotify: function(result) {
-          service.set("feedback", result.valueDecoded);
-          service.set("feedbackRaw", result.value);
+          // result.value is an ArrayBuffer. Every service has a different encoding.
+          // fi. a heartrate monitor value can be retrieved by:
+          //   var data = new Uint8Array(result.value);
+          //   var heartRate = data[1];
+          service.set("feedback", result.value);
+          service.set("feedbackRaw", result.valueRaw);
           service.set("feedbackTimestamp", getTimestamp());
         }
       }).then(function (result) {
