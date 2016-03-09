@@ -2,7 +2,7 @@
 
 Demo app for the [NativeScript Bluetooth plugin](https://github.com/EddyVerbruggen/nativescript-bluetooth)
 
-<img src="bluetooth-demo.gif" width="292"/>
+<img src="bluetooth-demo.gif"/>
 
 ## Installation
 
