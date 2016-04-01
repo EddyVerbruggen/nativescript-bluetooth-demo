@@ -2,15 +2,15 @@
 	"nativescript": {
 		"id": "org.nativescript.bluetoothdemo",
 		"tns-ios": {
-			"version": "1.6.0"
+			"version": "1.7.0"
 		},
 		"tns-android": {
-			"version": "1.6.3"
+			"version": "1.7.1"
 		}
 	},
 	"dependencies": {
-		"nativescript-bluetooth": "^1.1.0",
-		"tns-core-modules": "^1.6.0"
+		"nativescript-bluetooth": "^1.1.1",
+		"tns-core-modules": "^1.7.0"
 	},
 	"devDependencies": {
 		"nativescript-dev-typescript": "^0.3.1",
