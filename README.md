@@ -33,4 +33,4 @@ $ tns run ios
 $ tns run android
 ```
 
-Don't use an emulator as you can only test Bluetooth connectivity with a real device.
+Don't use an emulator as you can only test Bluetooth connectivity on a real device.
