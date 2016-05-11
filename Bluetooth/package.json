@@ -9,7 +9,7 @@
 		}
 	},
 	"dependencies": {
-		"nativescript-bluetooth": "^1.1.1",
+		"nativescript-bluetooth": "^1.1.2",
 		"tns-core-modules": "^1.7.0"
 	},
 	"devDependencies": {
