@@ -1,8 +1,8 @@
-# nativescript-bluetooth demo app
+# nativescript-bluetooth demo app - angular version
 
 Demo app for the [NativeScript Bluetooth plugin](https://github.com/EddyVerbruggen/nativescript-bluetooth)
 
-<img src="bluetooth-demo.gif"/>
+<img src="bluetooth-demo-ng.gif"/>
 
 ## Installation
 
@@ -12,7 +12,8 @@ Once you have the [CLI installed](https://github.com/NativeScript/nativescript-c
 ```
 $ git clone https://github.com/EddyVerbruggen/nativescript-bluetooth-demo
 $ cd nativescript-bluetooth-demo
-$ cd Bluetooth
+$ git checkout angular
+$ cd Bluetooth-ng
 ```
 
 Next, install the app's iOS and Android runtimes, as well as the app's npm dependencies:
