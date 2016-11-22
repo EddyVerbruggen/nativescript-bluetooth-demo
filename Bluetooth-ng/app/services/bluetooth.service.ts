@@ -3,6 +3,7 @@ import { Observable, Subscription } from "rxjs/Rx";
 import dialogs = require("ui/dialogs");
 
 // NOTE: To get the following to work, which pulls in typings, had to add ---> "typings": "bluetooth.d.ts" <--- to the plugin's package.json file
+//       *** This is now fixed with Eddy's 1.1.4 version of the plugin.
 import bluetooth = require("nativescript-bluetooth");
 
 
@@ -302,7 +303,7 @@ export class BluetoothService {
             serviceUUID: characteristic.serviceRef.UUID,
             characteristicUUID: characteristic.UUID
         }).then(
-            (res: any) => {   // had to use "any" for type, since bluetooth.ReadResult is incorrect (had valueDecoded instead of valueRaw)
+            (res: bluetooth.ReadResult) => {
                 // result.value is an ArrayBuffer. Every service has a different encoding.
                 // e.g. a heartrate monitor value can be retrieved by:
                 //      var data = new Uint8Array(result.value);
@@ -410,7 +411,7 @@ export class BluetoothService {
             peripheralUUID: characteristic.serviceRef.peripheralRef.UUID,
             serviceUUID: characteristic.serviceRef.UUID,
             characteristicUUID: characteristic.UUID,
-            onNotify: (res: any) => {   // had to use "any" for type, since bluetooth.ReadResult is incorrect (had valueDecoded instead of valueRaw)
+            onNotify: (res: bluetooth.ReadResult) => {
                 // result is same as read() method result
                 self.zone.run( () => {
                     characteristic.notifyResult.setFields(res.value, res.valueRaw, new Date());
