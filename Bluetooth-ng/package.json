@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "NativeScript-angular app to demonstrate the bluetooth plugin",
   "license": "Apache-2.0",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/EddyVerbruggen/nativescript-bluetooth-demo.git"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EddyVerbruggen/nativescript-bluetooth-demo.git"
+  },
   "homepage": "https://github.com/EddyVerbruggen/nativescript-bluetooth-demo",
-	"keywords": [
-		"NativeScript",
+  "keywords": [
+    "NativeScript",
     "bluetooth",
     "ble"
-	],
-	"author": "Brad Powell",
+  ],
+  "author": "Brad Powell",
   "nativescript": {
     "id": "org.nativescript.Bluetoothng",
     "tns-ios": {
@@ -33,7 +33,7 @@
     "@angular/platform-browser-dynamic": "2.1.2",
     "@angular/router": "3.1.2",
     "nativescript-angular": "1.1.3",
-    "nativescript-bluetooth": "^1.1.3",
+    "nativescript-bluetooth": "^1.1.4",
     "nativescript-theme-core": "^0.2.1",
     "reflect-metadata": "~0.1.8",
     "rxjs": "5.0.0-beta.12",
