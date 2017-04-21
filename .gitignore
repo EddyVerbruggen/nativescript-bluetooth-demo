@@ -1,6 +1,5 @@
-*/bin
-*/obj
-*.user-settings.xml
+.idea
+.vscode
 Bluetooth/node_modules
 Bluetooth/platforms
 Bluetooth/lib

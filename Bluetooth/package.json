@@ -2,22 +2,22 @@
   "nativescript": {
     "id": "org.nativescript.bluetoothdemo",
     "tns-android": {
-      "version": "2.4.1"
+      "version": "2.5.0"
     },
     "tns-ios": {
-      "version": "2.4.0"
+      "version": "2.5.0"
     }
   },
   "dependencies": {
-    "nativescript-bluetooth": "1.1.4",
-    "tns-core-modules": "^2.4.0"
+    "nativescript-bluetooth": "1.1.5",
+    "tns-core-modules": "^2.5.1"
   },
   "devDependencies": {
-    "babel-traverse": "6.19.0",
-    "babel-types": "6.19.0",
-    "babylon": "6.14.1",
+    "babel-traverse": "6.12.0",
+    "babel-types": "6.11.1",
+    "babylon": "6.8.4",
     "lazy": "1.0.11",
-    "nativescript-dev-typescript": "^0.3.1",
-    "typescript": "^1.8.2"
+    "nativescript-dev-typescript": "^0.3.7",
+    "typescript": "^2.1.0"
   }
 }
