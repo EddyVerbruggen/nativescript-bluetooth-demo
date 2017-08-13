@@ -49,20 +49,20 @@ button {
 }
 
 .padded-label {
-    padding: 0 12;
+  padding: 0 12;
 }
 
 .padded-label-stack {
-    padding: 12;
+  padding: 12;
 }
 
 .title-label {
-    padding: 0 0 12 0;
-    font-weight: bold;
+  padding: 0 0 12 0;
+  font-weight: bold;
 }
 
 .uuid-label {
-    font-size: 10;
+  font-size: 10;
 }
 
 .rssi-label {

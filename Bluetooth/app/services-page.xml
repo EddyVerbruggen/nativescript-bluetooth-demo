@@ -1,13 +1,13 @@
 <Page xmlns="http://www.nativescript.org/tns.xsd" loaded="pageLoaded">
   <StackLayout col="0" orientation="vertical">
-    <StackLayout col="0" orientation="vertical" cssClass="tab-content">
+    <StackLayout col="0" orientation="vertical" class="tab-content">
       <StackLayout orientation="horizontal">
-        <Label text="{{ name }}" cssClass="details-label-title" />
-        <Label text=" services" cssClass="details-label-title details-label-title-postfix" />
+        <Label text="{{ name }}" class="details-label-title" />
+        <Label text=" services" class="details-label-title details-label-title-postfix" />
       </StackLayout>
-      <Label text="{{ UUID }}" cssClass="details-services-uuid" />
+      <Label text="{{ UUID }}" class="details-services-uuid" />
       <!--<Label text="{{ state }}" />-->
-      <Button text="disconnect" tap="onDisconnectTap" cssClass="button button-positive" />
+      <Button text="disconnect" tap="onDisconnectTap" class="button button-positive" />
     </StackLayout>
 
     <ActivityIndicator busy="{{ isLoading }}"/>
@@ -15,9 +15,9 @@
     <GridLayout rows="*">
       <ListView items="{{ services }}" itemTap="onServiceTap" separatorColor="#90c3d4">
         <ListView.itemTemplate>
-          <StackLayout col="0" cssClass="tab-content">
+          <StackLayout col="0" class="tab-content">
             <Label text="{{ name }}" />
-            <Label text="{{ UUID }}" visibility="{{ name != UUID ? 'visible' : 'collapsed' }}" />
+            <Label text="{{ UUID }}" visibility="{{ name != UUID ? 'visible' : 'collapse' }}" />
           </StackLayout>
         </ListView.itemTemplate>
       </ListView>

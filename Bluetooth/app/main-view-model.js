@@ -1,8 +1,9 @@
-var observable = require("data/observable");
-var observableArray = require("data/observable-array");
-var frameModule = require("ui/frame");
+var observable = require("tns-core-modules/data/observable");
+var observableArray = require("tns-core-modules/data/observable-array");
+var frameModule = require("tns-core-modules/ui/frame");
+var dialogs = require("tns-core-modules/ui/dialogs");
 var bluetooth = require("nativescript-bluetooth");
-var dialogs = require("ui/dialogs");
+
 var DemoAppModel = (function (_super) {
   __extends(DemoAppModel, _super);
   function DemoAppModel() {
@@ -59,11 +60,10 @@ var DemoAppModel = (function (_super) {
           bluetooth.startScanning(
             {
               // beware: the peripheral must advertise ALL these services
-              serviceUUIDs: [heartrateService],
+              serviceUUIDs: [omegaService],
               seconds: 4,
               onDiscovered: function (peripheral) {
-                var obsp = new observable.Observable(peripheral);
-                observablePeripheralArray.push(obsp);
+                observablePeripheralArray.push(observable.fromObject(peripheral));
               }
             }
           ).then(function() {
@@ -99,8 +99,7 @@ var DemoAppModel = (function (_super) {
               serviceUUIDs: [], // pass an empty array to scan for all services
               seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
               onDiscovered: function (peripheral) {
-                var obsp = new observable.Observable(peripheral);
-                observablePeripheralArray.push(obsp);
+                observablePeripheralArray.push(observable.fromObject(peripheral));
               }
             }
           ).then(function() {

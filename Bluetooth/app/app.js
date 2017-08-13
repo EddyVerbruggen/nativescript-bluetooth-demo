@@ -1,4 +1,2 @@
-var application = require("application");
-application.mainModule = "main-page";
-application.cssFile = "./app.css";
-application.start();
+var application = require("tns-core-modules/application");
+application.start({ moduleName: 'main-page' });

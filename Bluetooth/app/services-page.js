@@ -1,8 +1,8 @@
-var observableArray = require("data/observable-array");
-var observable = require("data/observable");
-var frameModule = require("ui/frame");
+var observableArray = require("tns-core-modules/data/observable-array");
+var observable = require("tns-core-modules/data/observable");
+var frameModule = require("tns-core-modules/ui/frame");
+var dialogs = require("tns-core-modules/ui/dialogs");
 var bluetooth = require("nativescript-bluetooth");
-var dialogs = require("ui/dialogs");
 
 var _peripheral;
 
@@ -13,11 +13,9 @@ function pageLoaded(args) {
   if (page.navigationContext === undefined) {
     return;
   }
-  
-  console.log("--- page.navigationContext: " + page.navigationContext);
-  
+
   _peripheral = page.navigationContext.peripheral;
-  _peripheral.services = new observableArray.ObservableArray();
+  var discoveredServices = new observableArray.ObservableArray();
   page.bindingContext = _peripheral;
   _peripheral.set('isLoading', true);
 
@@ -29,9 +27,10 @@ function pageLoaded(args) {
         console.log("------- Peripheral connected: " + JSON.stringify(peripheral));
         peripheral.services.forEach(function(value) {
           console.log("---- ###### adding service: " + value.UUID);
-          _peripheral.services.push(value);
+          discoveredServices.push(observable.fromObject(value));
         });
         _peripheral.set('isLoading', false);
+        _peripheral.set('services', discoveredServices);
       },
       onDisconnected: function (peripheral) {
         dialogs.alert({
@@ -46,9 +45,7 @@ function pageLoaded(args) {
 
 function onServiceTap(args) {
   var index = args.index;
-  console.log('!!&&&&***** Clicked service with index ' + args.index);
-
-  var service = _peripheral.services.getItem(index);
+  var service = _peripheral.get("services").getItem(index);
   console.log("--- service selected: " + service.UUID);
 
   var navigationEntry = {

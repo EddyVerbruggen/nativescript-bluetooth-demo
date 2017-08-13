@@ -1,8 +1,5 @@
-var observableArray = require("data/observable-array");
-var observable = require("data/observable");
-var frameModule = require("ui/frame");
+var dialogs = require("tns-core-modules/ui/dialogs");
 var bluetooth = require("nativescript-bluetooth");
-var dialogs = require("ui/dialogs");
 
 function pageLoaded(args) {
     var page = args.object;
@@ -11,7 +8,7 @@ function pageLoaded(args) {
     var peripheral = page.navigationContext.peripheral;
     var service = page.navigationContext.service;
     service.peripheral = peripheral;
-    page.bindingContext = new observable.Observable(service);
+    page.bindingContext = service;
 }
 
 function onCharacteristicTap(args) {
