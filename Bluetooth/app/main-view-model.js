@@ -55,13 +55,23 @@ var DemoAppModel = (function (_super) {
     topmost.navigate(navigationEntry);
   };
 
-  DemoAppModel.prototype.doScanForHeartrrateMontitor = function () {
+  // this one 'manually' checks for permissions
+  DemoAppModel.prototype.doScanForHeartrateMontitor = function () {
     var that = this;
 
      bluetooth.hasCoarseLocationPermission().then(
       function(granted) {
         if (!granted) {
-          bluetooth.requestCoarseLocationPermission();
+          bluetooth.requestCoarseLocationPermission().then(
+              // doing it like this for demo / testing purposes.. better usage is demonstrated in 'doStartScanning' below
+              function(granted2) {
+                dialogs.alert({
+                  title: "Granted?",
+                  message: granted2 ? "Yep - now invoke that button again" : "Nope",
+                  okButtonText: "OK!"
+                });
+              }
+          );
         } else {
           var heartrateService = "180d";
           var omegaService = "12345678-9012-3456-7890-1234567890ee";
@@ -94,40 +104,32 @@ var DemoAppModel = (function (_super) {
      );
   };
 
+  // this one uses automatic permission handling
   DemoAppModel.prototype.doStartScanning = function () {
     var that = this;
 
-    // On Android 6 we need this permission to be able to scan for peripherals in the background.
-     bluetooth.hasCoarseLocationPermission().then(
-      function(granted) {
-        if (!granted) {
-          bluetooth.requestCoarseLocationPermission();
-        } else {
-          that.set('isLoading', true);
-          // reset the array
-          observablePeripheralArray.splice(0, observablePeripheralArray.length); 
-          bluetooth.startScanning(
-            {
-              serviceUUIDs: [], // pass an empty array to scan for all services
-              seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
-              onDiscovered: function (peripheral) {
-                observablePeripheralArray.push(observable.fromObject(peripheral));
-              }
-            }
-          ).then(function() {
-            that.set('isLoading', false);
-          },
-          function (err) {
-            that.set('isLoading', false);
-            dialogs.alert({
-              title: "Whoops!",
-              message: err,
-              okButtonText: "OK, got it"
-            });
-          });
+    that.set('isLoading', true);
+    // reset the array
+    observablePeripheralArray.splice(0, observablePeripheralArray.length);
+    bluetooth.startScanning(
+      {
+        serviceUUIDs: [], // pass an empty array to scan for all services
+        seconds: 4, // passing in seconds makes the plugin stop scanning after <seconds> seconds
+        onDiscovered: function (peripheral) {
+          observablePeripheralArray.push(observable.fromObject(peripheral));
         }
       }
-    );
+    ).then(function() {
+      that.set('isLoading', false);
+    },
+    function (err) {
+      that.set('isLoading', false);
+      dialogs.alert({
+        title: "Whoops!",
+        message: err,
+        okButtonText: "OK, got it"
+      });
+    });
   };
 
   DemoAppModel.prototype.doStopScanning = function () {

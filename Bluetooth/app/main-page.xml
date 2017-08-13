@@ -14,7 +14,7 @@
                 </Android>
                 <Label row="1" colSpan="2" text="scan 4 seconds for:" class="hint" textWrap="true" />
                 <Button row="2" col="0" text="any peripheral" tap="{{ doStartScanning }}" class="button button-neutral" />
-                <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrrateMontitor }}" class="button button-neutral" />
+                <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrateMontitor }}" class="button button-neutral" />
                 <Button row="3" colSpan="2" text="stop scan" tap="{{ doStopScanning }}" class="button button-danger" />
               </GridLayout>
               <ActivityIndicator busy="{{ isLoading }}" />
