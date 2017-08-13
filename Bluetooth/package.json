@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "nativescript-bluetooth": "file:///Users/eddyverbruggen/sandboxes/nativescript-bluetooth",
+    "nativescript-bluetooth": "~1.2.0",
     "tns-core-modules": "^3.1.0"
   },
   "devDependencies": {

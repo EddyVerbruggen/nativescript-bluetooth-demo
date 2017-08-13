@@ -2,6 +2,10 @@
   background-color: #F4F4F4;
 }
 
+ActivityIndicator {
+  padding-bottom: 8;
+}
+
 .tab-content {
   color: #808080;
   padding: 18;
@@ -15,7 +19,7 @@
 }
 
 label {
-  font-size: 16;
+  font-size: 15;
 }
 
 .hint {
@@ -26,8 +30,8 @@ label {
 button {
   /*color: #ffffff;  beware! this sets the color of the actionsheet label on iOS 8+ (#ffffff makes the label invisible on the white background) */
   background-color: #E0A458;
-  padding: 8;
-  margin: 8;
+  padding: 6;
+  margin: 6;
   font-size: 14;
   border-radius: 4;
 }

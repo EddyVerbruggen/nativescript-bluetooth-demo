@@ -4,8 +4,14 @@
       <TabViewItem title="Demo">
         <TabViewItem.view>
           <StackLayout>
-              <GridLayout columns="*,*" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
-                <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" class="button button-positive" />
+              <GridLayout columns="*, *" rows="auto, auto, auto, auto" horizontalAlignment="center" class="tab-content">
+                <iOS>
+                  <Button row="0" colSpan="2" text="is bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" class="button button-positive" />
+                </iOS>
+                <Android>
+                  <Button row="0" col="0" text="bluetooth enabled?" tap="{{ doIsBluetoothEnabled }}" class="button button-positive" />
+                  <Button row="0" col="1" text="enable bluetooth" tap="{{ doEnableBluetooth }}" class="button button-positive" />
+                </Android>
                 <Label row="1" colSpan="2" text="scan 4 seconds for:" class="hint" textWrap="true" />
                 <Button row="2" col="0" text="any peripheral" tap="{{ doStartScanning }}" class="button button-neutral" />
                 <Button row="2" col="1" text="a heartrate monitor" tap="{{ doScanForHeartrrateMontitor }}" class="button button-neutral" />

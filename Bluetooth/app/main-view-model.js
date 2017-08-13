@@ -20,6 +20,18 @@ var DemoAppModel = (function (_super) {
     });
   };
 
+  DemoAppModel.prototype.doEnableBluetooth = function () {
+    bluetooth.enable().then(function(enabled) {
+      setTimeout(function() {
+        dialogs.alert({
+          title: "Did the user allow enabling Bluetooth by our app?",
+          message: enabled ? "Yes" : "No",
+          okButtonText: "OK, nice!"
+        });
+      }, 500);
+    });
+  };
+
   var observablePeripheralArray = new observableArray.ObservableArray();
 
   DemoAppModel.prototype.peripherals = observablePeripheralArray;
